@@ -2,6 +2,11 @@ require 'sequel'
 
 class BaseClass
 
+
+  def self.db
+    @db ||= Sequel.connect('postgres://ormuser:ormpassword@localhost/ormtest')
+  end
+
   def self.table_name(table_name)
     @table_name = table_name
     return nil
@@ -10,19 +15,15 @@ class BaseClass
   def self.column(hash)
     @columns ||= {}
     @columns.merge!(hash)
+    attr_reader hash.keys.first
   end
   
   def self.create_table(use_row_id)
-    p "fuck"
-    @db ||= Sequel.connect('postgres://ormuser:ormpassword@localhost/ormtest')
-    p @db
-    p "rhenjlwq"
     start_query = "CREATE TABLE IF NOT EXISTS #{@table_name}("
     columns_query = self.join_columns(@columns, use_row_id)
 
     final_query = start_query + columns_query
-    p final_query
-    @db.run(final_query)
+    db.run(final_query)
     return nil
   end
 
@@ -67,9 +68,9 @@ class BaseClass
     end
     values_query[values_query.length-1] = ')'
     final_query = start_query + values_query
-    p final_query
-    p values
-    @db.execute(final_query, values)
+    insert_db = @db['INSERT INTO posts (title) VALUES(?)', values[0]]
+    insert_db.insert
+    #@db.run(final_query, values)
     return true
   end
 
