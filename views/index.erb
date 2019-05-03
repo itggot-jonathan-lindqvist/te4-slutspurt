@@ -12,7 +12,10 @@
     <input type="text" placeholder="Content" name="content">
     <input type="submit" placeholder="Create Post">
   </form>
-
-  <%= @post %>
+  <% @posts.each do |post| %>
+    <h1>Title: <%= post[:title] %></h1>
+    <p>Content: <%= post[:content] %></p>
+     <%= post %>
+  <% end %>
 </body>
 </html>

@@ -31,8 +31,6 @@ class BaseClass
     final_string = ""
     i = 0
     hash.each_pair do |key,value|
-      p key
-      p value
       if !use_row_id && i == 0
         final_string += "#{key.to_s} #{value} PRIMARY KEY,"
       else
@@ -41,7 +39,6 @@ class BaseClass
       i += 1
     end
     final_string = final_string[0..-2] + ")"
-    p final_string
     return final_string
   end
 
@@ -50,27 +47,26 @@ class BaseClass
     values = []
     columns = []
     if result
-        values = result[0]
-        columns = result[1]
+      values = result[0]
+      columns = result[1]
     else
-        return false
+      return false
     end
 
-    columns_query = ""
+    query = "INSERT INTO #{@table_name} ("
     columns.each do |column|
-        columns_query += column + ','
+      query += column + ','
     end
-    columns_query = columns_query[0..columns_query.length-2]
-    start_query = "INSERT INTO #{@table_name}(" + columns_query + ') '
-    values_query = "VALUES("
+
+    query = query[0..query.length-2] 
+    query += ") VALUES ("
     values.each do |value|
-        values_query += '?,'
+      query += "'" + value + "'" + ','
     end
-    values_query[values_query.length-1] = ')'
-    final_query = start_query + values_query
-    insert_db = @db['INSERT INTO posts (title) VALUES(?)', values[0]]
-    insert_db.insert
-    #@db.run(final_query, values)
+    
+    query = query[0..query.length-2] 
+    query += ')'
+    db.run(query)
     return true
   end
 
@@ -78,23 +74,48 @@ class BaseClass
     columns = []
     values = []
     hash.each_pair do |key,value|
-        if value.is_a? Array
-            columns << key.to_s
-            result = self.valid_requirements?(value[1][:requirements], key.to_s, value.first, values)
-            if result.is_a? Array
-                values = result[1]
-            elsif result
-                values << value[0]
-            else
-                return false
-            end
-
+      if value.is_a? Array
+        columns << key.to_s
+        result = self.valid_requirements?(value[1][:requirements], key.to_s, value.first, values)
+        if result.is_a? Array
+          values = result[1]
+        elsif result
+          values << value[0]
         else
-            columns << key.to_s
-            values << value
+          return false
         end
+
+      else
+        columns << key.to_s
+        values << value
+      end
     end
     return values, columns
+  end
+
+  def save(title, content)
+    db.run("INSERT INTO posts (title, content) VALUES (?, ?)", title, content)
+  end
+
+  def self.create(title, content)
+    if insert({ title: title, content: content })
+      self.new(title, content)
+    end
+  end
+
+  #Item.all({color: red}) { {join: 'manufacturer'}}
+  #def self.all(hash = {})
+  def self.all() 
+    query = "SELECT * FROM #{@table_name}"
+    db[query]
+  end
+
+  # def self.drop
+  #   db.run("DROP TABLE posts")
+  # end
+
+  def self.show
+    db["SELECT * FROM posts WHERE title = 'fak'"]
   end
 
 end
