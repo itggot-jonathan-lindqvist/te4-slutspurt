@@ -1,5 +1,4 @@
 class Post < BaseClass
-  puts "reeeee"
   table_name("posts")
   column(id: "serial")
   column(title: "text")
@@ -8,9 +7,9 @@ class Post < BaseClass
   create_table(false)
   #attr_reader :title, :content
 
-  def initialize(title, content)
-    @title = title
-    @content = content
+  def initialize(hash)
+    @title = hash[:title]
+    @content = hash[:content]
   end
   
 end

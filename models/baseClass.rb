@@ -98,9 +98,9 @@ class BaseClass
     db.run("INSERT INTO posts (title, content) VALUES (?, ?)", title, content)
   end
 
-  def self.create(title, content)
-    if insert({ title: title, content: content })
-      self.new(title, content)
+  def self.create(params)
+    if insert(params)
+      self.new(params)
     end
   end
 
@@ -125,7 +125,6 @@ class BaseClass
     id_query = ""
     query = "UPDATE #{@table_name} SET "
     params.each do |param|
-      p param
       if param[0] == "id"
         id_query = " WHERE id = #{param[1]}"
       else
@@ -134,6 +133,11 @@ class BaseClass
     end
     query = query[0..query.length-3] 
     query = query + id_query
+    db.run(query)
+  end
+
+  def self.destroy(params)
+    query = "DELETE FROM #{@table_name} WHERE id = #{params[:id]}"
     db.run(query)
   end
 

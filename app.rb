@@ -7,9 +7,7 @@ class App < Sinatra::Base
   end
 
   post '/' do
-    title = params[:title]
-    content = params[:content]
-    Post.create(title, content)
+    Post.create(params)
     redirect '/'
   end
 
@@ -30,6 +28,11 @@ class App < Sinatra::Base
     id = params[:id]
     Post.update(params)
     redirect "/#{id}"
+  end
+
+  post '/delete' do
+    Post.destroy(params)
+    redirect '/'
   end
 
 end
