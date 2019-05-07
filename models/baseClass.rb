@@ -63,7 +63,7 @@ class BaseClass
     values.each do |value|
       query += "'" + value + "'" + ','
     end
-    
+
     query = query[0..query.length-2] 
     query += ')'
     db.run(query)
@@ -93,6 +93,7 @@ class BaseClass
     return values, columns
   end
 
+  # TODO: change so it can be used by all models
   def save(title, content)
     db.run("INSERT INTO posts (title, content) VALUES (?, ?)", title, content)
   end
@@ -114,8 +115,26 @@ class BaseClass
   #   db.run("DROP TABLE posts")
   # end
 
-  def self.show
-    db["SELECT * FROM posts WHERE title = 'fak'"]
+  def self.find(id)
+    id = id.to_s
+    query = "SELECT * FROM #{@table_name} WHERE id = #{id}"
+    db[query]
+  end
+
+  def self.update(params)
+    id_query = ""
+    query = "UPDATE #{@table_name} SET "
+    params.each do |param|
+      p param
+      if param[0] == "id"
+        id_query = " WHERE id = #{param[1]}"
+      else
+        query += param[0] + " = " + "'" + param[1] + "'" + ", "
+      end
+    end
+    query = query[0..query.length-3] 
+    query = query + id_query
+    db.run(query)
   end
 
 end

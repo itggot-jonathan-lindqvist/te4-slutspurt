@@ -10,10 +10,11 @@
   <form action="/" method="post">
     <input type="text" placeholder="Title" name="title">
     <input type="text" placeholder="Content" name="content">
-    <input type="submit" placeholder="Create Post">
+    <input type="submit" value="Create Post">
   </form>
+  <h1>Index</h1>
   <% @posts.each do |post| %>
-    <h1>Title: <%= post[:title] %></h1>
+    <a href="/<%= post[:id] %>"> <h1>Title: <%= post[:title] %></h1></a>
     <p>Content: <%= post[:content] %></p>
      <%= post %>
   <% end %>

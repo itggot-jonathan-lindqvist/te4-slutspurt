@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Help :(</title>
+</head>
+
+<body>
+  <h1>Show</h1>
+  <% @post.each do |info| %>
+    <h1>Title: <%= info[:title] %></h1>
+    <p>Content: <%= info[:content] %></p>
+  <% end %>
+
+  <h2>update:</h2>
+
+  <form action="/update" method="post">
+    <input type="hidden" name="id" value="<%= @post.first[:id] %>"> 
+    <input type="text" placeholder="Title" name="title">
+    <input type="text" placeholder="Content" name="content">
+    <input type="submit" value="update Post">
+  </form>
+
+  <h2>delete:</h2>
+
+  <form action="/delete" method="post">
+    <input type="hidden" name="id" value="<%= @post.first[:id] %>">
+    <input type="submit" value="delete Post">
+  </form>
+
+</body>
+</html>

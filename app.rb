@@ -20,10 +20,16 @@ class App < Sinatra::Base
     Post.drop
   end
 
-  get '/show' do
-    oii = Post.show
-    p "title is:::::"
-    p oii.first[:title]
+  get '/:post_id' do
+    post_id = params[:post_id]
+    @post = Post.find(post_id)
+    erb :show
+  end
+
+  post '/update' do
+    id = params[:id]
+    Post.update(params)
+    redirect "/#{id}"
   end
 
 end
