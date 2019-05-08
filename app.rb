@@ -3,11 +3,17 @@ class App < Sinatra::Base
 
   get '/' do
     @posts = Post.all
+    @fruits = Fruit.all
     erb :index
   end
 
   post '/' do
     Post.create(params)
+    redirect '/'
+  end
+
+  post '/createfruit' do
+    Fruit.create(params)
     redirect '/'
   end
 

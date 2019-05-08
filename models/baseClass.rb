@@ -24,6 +24,7 @@ class BaseClass
 
     final_query = start_query + columns_query
     db.run(final_query)
+    @columns = {}
     return nil
   end
 
@@ -112,7 +113,7 @@ class BaseClass
   end
 
   # def self.drop
-  #   db.run("DROP TABLE posts")
+  #   db.run("DROP TABLE fruits")
   # end
 
   def self.find(id)

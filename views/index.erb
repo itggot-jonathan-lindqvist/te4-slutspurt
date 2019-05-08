@@ -12,11 +12,25 @@
     <input type="text" placeholder="Content" name="content">
     <input type="submit" value="Create Post">
   </form>
+  </form>
+    <form action="/createfruit" method="post">
+    <input type="text" placeholder="name" name="name">
+    <input type="text" placeholder="yeet" name="yeet">
+    <input type="text" placeholder="score" name="score">
+    <input type="submit" value="Create fruit">
+  </form>
   <h1>Index</h1>
   <% @posts.each do |post| %>
     <a href="/<%= post[:id] %>"> <h1>Title: <%= post[:title] %></h1></a>
     <p>Content: <%= post[:content] %></p>
      <%= post %>
+  <% end %>
+  <p>links dont work</p>
+  <% @fruits.each do |fruit| %>
+    <a href="/<%= fruit[:id] %>"> <h1>name: <%= fruit[:name] %></h1></a>
+    <p>desc: <%= fruit[:yeet] %></p>
+    <p>score: <%= fruit[:score] %></p>
+     <%= fruit %>
   <% end %>
 </body>
 </html>
