@@ -20,14 +20,15 @@
     <input type="submit" value="Create fruit">
   </form>
   <h1>Index</h1>
+  <h1>posts</h1>
   <% @posts.each do |post| %>
     <a href="/<%= post[:id] %>"> <h1>Title: <%= post[:title] %></h1></a>
     <p>Content: <%= post[:content] %></p>
      <%= post %>
   <% end %>
-  <p>links dont work</p>
+  <h1>fruits</h1>
   <% @fruits.each do |fruit| %>
-    <a href="/<%= fruit[:id] %>"> <h1>name: <%= fruit[:name] %></h1></a>
+    <h1>name: <%= fruit[:name] %></h1>
     <p>desc: <%= fruit[:yeet] %></p>
     <p>score: <%= fruit[:score] %></p>
      <%= fruit %>
