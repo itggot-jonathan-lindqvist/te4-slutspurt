@@ -11,7 +11,11 @@ class BaseClass
 
   # Declares tablename
   #
-  # @param table_name [String] is just the table name, ex: posts
+  # Example: 
+  #   Post.table_name( "posts" ) 
+  #   #=> nil
+  # 
+  # @param table_name [String] is just the table name
   # @return [nil]
   def self.table_name(table_name)
     @table_name = table_name
@@ -20,7 +24,7 @@ class BaseClass
   
   # Stores all the column names for a table and the column type
   #
-  # @param hash [Hash] the column name and type, ex: title: "text"
+  # @param hash [Hash] the column name and type
   def self.column(hash)
     @columns ||= {}
     @columns.merge!(hash)
@@ -28,6 +32,10 @@ class BaseClass
   end
   
   # Creates the a table if said table does not exists
+  #
+  # Example: 
+  #   Post.create_table( false ) 
+  #   #=> nil
   # 
   # @param use_row_id [Boolean] if you want the databae to create a
   #   id column or if you created one yourself
@@ -43,6 +51,10 @@ class BaseClass
   end
 
   # Creates a sql query for the columns and its types
+  #
+  # Example: 
+  #   Post.join_columns( { :id=>"serial", :title=>"text", :content=>"text" }, false ) 
+  #   #=> "id serial PRIMARY KEY,name text,yeet text,score integer)"
   #
   # @param hash [Hash] is the hash of all columns and its types.
   # @param use_row_id [Boolean] if you want the databae to create a
@@ -66,7 +78,11 @@ class BaseClass
   # Creates a query to insert new values into the right table
   # It then executes that query
   #
-  # @param hash [Hash] of the values that will be inserted, ex: { title: "Yoo", content: "The boy said Yooo." }
+  # Example:
+  #   Post.insert({ title: "Yoo", content: "The boy said Yooo." })
+  #   #=> True
+  #
+  # @param hash [Hash] of the values that will be inserted
   # @return [Boolean]
   def self.insert(hash)
     result = extract_values(hash)
@@ -98,7 +114,10 @@ class BaseClass
 
   # Separates the value from the key and add them to an array
   #
-  # @param hash [Hash] of the values that will be inserted, ex: { title: "Yoo", content: "The boy said Yooo." }
+  # Example:
+  #   Fruit.extract_values( {"name"=>"Bob", "yeet"=>"Good", "score"=>"99"} )
+  #   #=> ["Bob", "Good", "99"], ["name", "yeet", "score"]
+  # @param hash [Hash] of the values that will be inserted
   # @return [Array] columns
   # @return [Array] values
   def self.extract_values(hash)
@@ -117,6 +136,10 @@ class BaseClass
 
   # If the values are successfully inserted then it creates a new instance of the class
   #
+  # Example:
+  #   Post.create( {"title"=>"THis is the tile", "content"=>"and this is the content"} )
+  #   #=> #<Post:0x00007f9e7ac4d338 @title="THis is the tile", @content="and this is the content">
+  #
   # @param params [Hash] is the params returned from the form
   def self.create(params)
     if insert(params)
@@ -126,6 +149,10 @@ class BaseClass
 
   # Creates a query that returns all the rows from a specified table and then executes the query
   #
+  # Example:
+  #   Post.all()
+  #   #=> #<Sequel::Postgres::Dataset: "SELECT * FROM posts">
+  #
   # @return [Dataset]
   def self.all() 
     query = "SELECT * FROM #{@table_name}"
@@ -133,6 +160,10 @@ class BaseClass
   end
 
   # Finds a specific row in a table
+  #
+  # Example:
+  #   Post.find(1)
+  #   #=> #<Sequel::Postgres::Dataset: "SELECT * FROM posts WHERE id = 1">
   #
   # @param id [Integer]
   # @return [Dataset]
@@ -144,7 +175,11 @@ class BaseClass
 
   # Builds a query that updates a specefic row and then executes it
   #
-  # @param params [Hash] are all the values from the form, ex:  { id: 1, title: "Yoo", content: "The boy said Yooo."}
+  # Example:
+  #   Post.update( { id: 1, title: "Yoo", content: "The boy said Yooo."} )
+  #   #=> nil
+  #
+  # @param params [Hash] are all the values from the form
   def self.update(params)
     id_query = ""
     query = "UPDATE #{@table_name} SET "
@@ -161,6 +196,10 @@ class BaseClass
   end
 
   # Deletes an row from the table
+  #
+  # Example:
+  #   Post.destroy( { id: 1 } )
+  #   #=> nil
   #
   # @param params [Hash] is just the id
   def self.destroy(params)

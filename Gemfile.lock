@@ -9,7 +9,10 @@ GEM
   remote: https://rubygems.org/
   specs:
     bcrypt (3.1.12)
+    concurrent-ruby (1.1.5)
     ffi (1.10.0)
+    i18n (1.6.0)
+      concurrent-ruby (~> 1.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -40,6 +43,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt
+  i18n
   pg
   rerun!
   sequel
