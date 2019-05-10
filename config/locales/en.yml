@@ -1,2 +1,7 @@
 en:
   test: "This is a test"
+  fruit: "Fruits"
+  post: "Posts"
+  about: "About Us"
+  about_text: "Look how cool, I can transform the text with the press of a button!!!"
+  lang: "Change language"

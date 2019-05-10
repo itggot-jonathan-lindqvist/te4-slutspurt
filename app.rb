@@ -18,6 +18,16 @@ class App < Sinatra::Base
   end
 
   get '/about' do
+    erb :about
+  end
+
+  post '/change' do
+    if I18n.locale == :se
+      I18n.locale = :en
+    else
+      I18n.locale = :se
+    end
+    redirect '/about'
   end
 
   get '/drop' do

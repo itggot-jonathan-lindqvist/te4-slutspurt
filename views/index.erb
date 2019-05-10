@@ -19,14 +19,15 @@
     <input type="text" placeholder="score" name="score">
     <input type="submit" value="Create fruit">
   </form>
+  <a href="/about"><%= I18n.t(:about)%></a>
   <h1>Index</h1>
-  <h1>posts</h1>
+  <h1><%= I18n.t(:post)%></h1>
   <% @posts.each do |post| %>
     <a href="/<%= post[:id] %>"> <h1>Title: <%= post[:title] %></h1></a>
     <p>Content: <%= post[:content] %></p>
      <%= post %>
   <% end %>
-  <h1>fruits</h1>
+  <h1><%= I18n.t(:fruit)%></h1>
   <% @fruits.each do |fruit| %>
     <h1>name: <%= fruit[:name] %></h1>
     <p>desc: <%= fruit[:yeet] %></p>
