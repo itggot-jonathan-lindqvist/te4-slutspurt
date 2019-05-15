@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+html lang="en"
+  head
+    meta charset="UTF-8"/
+    meta http-equiv="X-UA-Compatible" content="ie=edge"/
+    title Document
+  body
+
+  form action="/" method="post"
+    input type="text" placeholder="Title" name="title"
+    input type="text" placeholder="Content" name="content"
+    input type="submit" value="Create Post"
+
+  - @posts.each do |post|
+    .posts
+      h2 Anonymous
+      ==post[:title]
+      ==post[:content]

@@ -84,10 +84,12 @@ class BaseClass
   #
   # @param hash [Hash] of the values that will be inserted
   # @return [Boolean]
-  def self.insert(hash)
+  def self.own_insert(hash)
     result = extract_values(hash)
     values = []
     columns = []
+    query_values = ""
+    eval_string = "db[query,"
     if result
       values = result[0]
       columns = result[1]
@@ -102,13 +104,20 @@ class BaseClass
 
     query = query[0..query.length-2] 
     query += ") VALUES ("
-    values.each do |value|
-      query += "'" + value + "'" + ','
+    values.each_with_index do |value, index|
+      query += "?" + ','
+      query_values += "values[#{index}],"
     end
 
+    eval_string += query_values
+    eval_string = eval_string[0..eval_string.length-2] + "]"
+
     query = query[0..query.length-2] 
-    query += ')'
-    db.run(query)
+    query += ');'
+       
+    evaled = eval(eval_string)
+    evaled.insert
+
     return true
   end
 
@@ -142,7 +151,7 @@ class BaseClass
   #
   # @param params [Hash] is the params returned from the form
   def self.create(params)
-    if insert(params)
+    if own_insert(params)
       self.new(params)
     end
   end
@@ -169,8 +178,8 @@ class BaseClass
   # @return [Dataset]
   def self.find(id)
     id = id.to_s
-    query = "SELECT * FROM #{@table_name} WHERE id = #{id}"
-    db[query]
+    query = "SELECT * FROM #{@table_name} WHERE id = ?"
+    db[query, id]
   end
 
   # Builds a query that updates a specefic row and then executes it
@@ -192,6 +201,7 @@ class BaseClass
     end
     query = query[0..query.length-3] 
     query = query + id_query
+    p query
     db.run(query)
   end
 

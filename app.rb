@@ -5,6 +5,7 @@ class App < Sinatra::Base
     @posts = Post.all
     @fruits = Fruit.all
     erb :index
+    # slim :test
   end
 
   post '/' do
