@@ -4,8 +4,8 @@ class App < Sinatra::Base
   get '/' do
     @posts = Post.all
     @fruits = Fruit.all
-    erb :index
-    # slim :test
+    # erb :index
+    slim :test
   end
 
   post '/' do
